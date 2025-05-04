@@ -1,4 +1,3 @@
-import jsonFgSpec from './json-fg/spec';
-import ogcApiSpec from './ogc-api/spec';
+import oasSpec from './oas/spec';
 
-export default [jsonFgSpec, ogcApiSpec];
+export default [oasSpec];

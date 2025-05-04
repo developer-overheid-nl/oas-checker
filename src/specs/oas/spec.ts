@@ -59,8 +59,8 @@ const responseMapper: SpecResponseMapper = async responseText => {
 const linterName = (confClass: string) => confClass.replace('http://www.opengis.net/spec/', '');
 
 const spec: Spec = {
-  name: 'OGC API',
-  slug: 'ogc-api',
+  name: 'OAS',
+  slug: 'oas',
   example: JSON.stringify(example, undefined, 2),
   linters: Object.entries(rulesets).map(entry => ({
     name: linterName(entry[0]),
