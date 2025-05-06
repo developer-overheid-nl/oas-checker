@@ -1,5 +1,5 @@
 {
-  "name": "@geonovum/ogc-checker",
+  "name": "@developer-overheid-nl/oas-checker",
   "private": true,
   "version": "0.0.0",
   "type": "module",

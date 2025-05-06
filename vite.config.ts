@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/ogc-checker/',
+  base: '/oas-checker/',
   build: {
     outDir: 'docs',
   },

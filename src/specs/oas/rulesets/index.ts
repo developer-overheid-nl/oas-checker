@@ -1,11 +1,8 @@
 import { Rulesets } from '../../../spectral';
-import featuresCore, { OGC_API_FEATURES_CORE_URI } from './features-core';
-import featuresOas30, { OGC_API_FEATURES_OAS3_URI } from './features-oas30';
+import adrCore, { ADR_URI } from './adr-core';
 
 const rulesets: Rulesets = {
-  // Features - Part 1
-  [OGC_API_FEATURES_CORE_URI]: featuresCore,
-  [OGC_API_FEATURES_OAS3_URI]: featuresOas30,
+  [ADR_URI]: adrCore,
 };
 
 export default rulesets;

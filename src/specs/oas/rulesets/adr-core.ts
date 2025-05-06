@@ -1,10 +1,11 @@
 import type { RulesetDefinition } from '@stoplight/spectral-core';
 import { oas3_0 } from '@stoplight/spectral-formats';
 import { truthy, pattern, or, schema, casing } from '@stoplight/spectral-functions';
+import { oasDocumentSchema, oasPathParam } from '@stoplight/spectral-rulesets/dist/oas/functions';
 
-export const OGC_API_FEATURES_CORE_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
+export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
 
-const featuresCore: RulesetDefinition = {
+const adrCore: RulesetDefinition = {
   documentationUrl: 'https://logius-standaarden.github.io/API-Design-Rules',
   description: 'NLGov REST API Design Rules',
   formats: [oas3_0],
@@ -76,42 +77,6 @@ const featuresCore: RulesetDefinition = {
       },
       message: "/core/no-trailing-slash: Leave off trailing slashes from URIs: https://logius-standaarden.github.io/API-Design-Rules/#/core/no-trailing-slash"
     },
-    "paths-open-api-json-resource-exists": {
-      severity: "error",
-      given: [
-        "$.paths"
-      ],
-      then: {
-        function: truthy,
-        field: "/openapi.json"
-      },
-      message: "There does not exist a resource `/openapi.json` that returns the OpenAPI specification document"
-    },
-    "paths-open-api-json-resource-has-get": {
-      severity: "error",
-      given: [
-        "$.paths[/openapi.json]"
-      ],
-      then: {
-        function: pattern,
-        functionOptions: {
-          match: "get"
-        },
-        field: "@key"
-      },
-      message: "There does not exist a GET method (and no other methods) for the `/openapi.json` resource"
-    },
-    "paths-open-api-json-specify-cors-header": {
-      severity: "error",
-      given: [
-        "$.paths[/openapi.json].get.responses[?(@property && @property.match(/(2|3)\\d\\d/))].headers"
-      ],
-      then: {
-        function: truthy,
-        field: "access-control-allow-origin"
-      },
-      message: "The response of the `/openapi.json` resource should set the `access-control-allow-origin` header with value `*`"
-    },
     "info-contact-fields-exist": {
       severity: "error",
       given: [
@@ -175,7 +140,6 @@ const featuresCore: RulesetDefinition = {
       message: "Server URL {{value}} {{error}}.",
       given: [
         "$.servers[*]",
-        "$.paths..servers[*]"
       ],
       then: {
         field: "url",
@@ -210,9 +174,9 @@ const featuresCore: RulesetDefinition = {
       }
     },
     "property-casing": {
-      severity: "warn",
+      severity: "error",
       given: [
-        "$.*.schemas[*].properties.[?(@property && @property.match(/_links/i))]"
+        "$.*.schemas[*].properties.[?(@property)]"
       ],
       then: {
         function: casing,
@@ -222,11 +186,25 @@ const featuresCore: RulesetDefinition = {
         field: "@key"
       },
       message: "Properties must be lowerCamelCase."
-    }
+    },
+    "oas-definition": {
+      given: "$",
+      message: "The JSON representation SHALL conform to the OpenAPI Specification, version 3.x. {{error}}.",
+      severity: "error",
+      then: [
+        {
+          function: oasDocumentSchema,
+        },
+        {
+          field: "paths",
+          function: oasPathParam,
+        },
+      ],
+    },
   },
 };
 
-export default featuresCore;
+export default adrCore;
 
 
 
