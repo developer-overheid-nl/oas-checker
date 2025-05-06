@@ -1,7 +1,6 @@
 import type { RulesetDefinition } from '@stoplight/spectral-core';
 import { oas3_0 } from '@stoplight/spectral-formats';
-import { truthy, pattern, or, schema, casing } from '@stoplight/spectral-functions';
-import { oasDocumentSchema, oasPathParam } from '@stoplight/spectral-rulesets/dist/oas/functions';
+import { pattern, or, schema, casing } from '@stoplight/spectral-functions';
 
 export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
 
@@ -10,19 +9,6 @@ const adrCore: RulesetDefinition = {
   description: 'NLGov REST API Design Rules',
   formats: [oas3_0],
   rules: {
-    openapi3: {
-      severity: "error",
-      given: [
-        "$.['openapi']"
-      ],
-      then: {
-        function: pattern,
-        functionOptions: {
-          match: "^3.0.*$"
-        }
-      },
-      message: "Use OpenAPI Specification for documentation"
-    },
     'missing-version-header': {
       severity: "error",
       given: "$..[responses][?(@property && @property.match(/(2|3)\\d\\d/))][headers]",
@@ -37,15 +23,6 @@ const adrCore: RulesetDefinition = {
             "API-version"
           ]
         }
-      },
-      message: "Return the full version number in a response header"
-    },
-    "missing-header": {
-      severity: "error",
-      given: "$..[responses][?(@property && @property.match(/(2|3)\\d\\d/))]",
-      then: {
-        field: "headers",
-        function: truthy
       },
       message: "/core/version-header: Return the full version number in a response header: https://logius-standaarden.github.io/API-Design-Rules/#/core/version-header"
     },
@@ -71,7 +48,7 @@ const adrCore: RulesetDefinition = {
       then: {
         function: pattern,
         functionOptions: {
-          notMatch: ".+ \\/$"
+          notMatch: ".+\\/$"
         },
         field: "@key"
       },
@@ -174,32 +151,16 @@ const adrCore: RulesetDefinition = {
       }
     },
     "property-casing": {
-      severity: "error",
-      given: [
-        "$.*.schemas[*].properties.[?(@property)]"
-      ],
+      severity: "warn",
+      message: "Properties should be lowerCamelCase in {{path}}",
+      given: "$..properties",
       then: {
         function: casing,
         functionOptions: {
-          type: "camel"
+          type: "camel",
         },
         field: "@key"
-      },
-      message: "Properties must be lowerCamelCase."
-    },
-    "oas-definition": {
-      given: "$",
-      message: "The JSON representation SHALL conform to the OpenAPI Specification, version 3.x. {{error}}.",
-      severity: "error",
-      then: [
-        {
-          function: oasDocumentSchema,
-        },
-        {
-          field: "paths",
-          function: oasPathParam,
-        },
-      ],
+      }
     },
   },
 };

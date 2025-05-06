@@ -98,7 +98,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "oas_uri": {
+          "oasUri": {
             "type": "string"
           },
           "docsUri": {
@@ -119,13 +119,13 @@
           "repositoryUri": {
             "type": "string"
           },
-          "contact_name": {
+          "contactName": {
             "type": "string"
           },
-          "contact_email": {
+          "contactEmail": {
             "type": "string"
           },
-          "contact_url": {
+          "contactUrl": {
             "type": "string"
           },
           "organisation": {
