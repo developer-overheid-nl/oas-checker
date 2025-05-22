@@ -1,14 +1,14 @@
 import type { RulesetDefinition } from '@stoplight/spectral-core';
 import { oas3_0 } from '@stoplight/spectral-formats';
-import { pattern, or, schema, casing } from '@stoplight/spectral-functions';
+import { pattern, or, schema, casing, truthy } from '@stoplight/spectral-functions';
 
 export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
 
 const adrCore: RulesetDefinition = {
-  documentationUrl: 'https://logius-standaarden.github.io/API-Design-Rules',
   description: 'NLGov REST API Design Rules',
   formats: [oas3_0],
   rules: {
+    // /core/version-header
     'missing-version-header': {
       severity: "error",
       given: "$..[responses][?(@property && @property.match(/(2|3)\\d\\d/))][headers]",
@@ -24,8 +24,20 @@ const adrCore: RulesetDefinition = {
           ]
         }
       },
-      message: "/core/version-header: Return the full version number in a response header: https://logius-standaarden.github.io/API-Design-Rules/#/core/version-header"
+      message: "/core/version-header: Return the full version number in a response header",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/version-header"
     },
+    "missing-header": {
+      severity: "error",
+      given: "$..[responses][?(@property && @property.match(/(2|3)\\d\\d/))]",
+      then: {
+        field: "headers",
+        function: truthy,
+      },
+      message: "/core/version-header: Return the full version number in a response header",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/version-header"
+    },
+    // /core/uri-version
     "include-major-version-in-uri": {
       severity: "error",
       given: [
@@ -38,8 +50,10 @@ const adrCore: RulesetDefinition = {
         },
         field: "url"
       },
-      message: "/core/uri-version: Include the major version number in the URI: https://logius-standaarden.github.io/API-Design-Rules/#/core/uri-version"
+      message: "/core/uri-version: Include the major version number in the URI",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/uri-version"
     },
+    // /core/no-trailing-slash
     "paths-no-trailing-slash": {
       severity: "error",
       given: [
@@ -52,7 +66,27 @@ const adrCore: RulesetDefinition = {
         },
         field: "@key"
       },
-      message: "/core/no-trailing-slash: Leave off trailing slashes from URIs: https://logius-standaarden.github.io/API-Design-Rules/#/core/no-trailing-slash"
+      message: "/core/no-trailing-slash: Leave off trailing slashes from URIs",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/no-trailing-slash"
+    },
+    // /core/doc-openapi-contact"
+    "info-contact": {
+      severity: "error",
+      given: [
+        "$.info"
+      ],
+      then: {
+        function: schema,
+        functionOptions: {
+          schema: {
+            required: [
+              "contact"
+            ]
+          }
+        }
+      },
+      message: "Missing `info.contact` field.",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/doc-openapi-contact"
     },
     "info-contact-fields-exist": {
       severity: "error",
@@ -71,8 +105,10 @@ const adrCore: RulesetDefinition = {
           }
         }
       },
-      message: "Missing fields in `info.contact` field. Must specify email, name and url."
+      message: "Missing fields in `info.contact` field. Must specify email, name and url.",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/doc-openapi-contact"
     },
+    // /core/http-methods
     "http-methods": {
       severity: "error",
       given: [
@@ -85,7 +121,37 @@ const adrCore: RulesetDefinition = {
         },
         field: "@key"
       },
-      message: "/core/http-methods: Only apply standard HTTP methods: https://logius-standaarden.github.io/API-Design-Rules/#http-methods"
+      message: "/core/http-methods: Only apply standard HTTP methods",
+      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/http-methods"
+    },
+    // /core/semver
+    "semver": {
+      severity: "error",
+      message: "Version {{value}} should be in semver format.",
+      given: "$.info.version",
+      then: {
+        function: pattern,
+        functionOptions: {
+          match: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        }
+      }
+    },
+    "info-version": {
+      severity: "error",
+      given: [
+        "$.info"
+      ],
+      then: {
+        function: schema,
+        functionOptions: {
+          schema: {
+            required: [
+              "version"
+            ]
+          }
+        }
+      },
+      message: "Missing `info.version` field.",
     },
     "paths-kebab-case": {
       severity: "warn",
