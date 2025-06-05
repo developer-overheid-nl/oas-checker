@@ -1,10 +1,10 @@
 import type { RulesetDefinition } from '@stoplight/spectral-core';
 import { oas3_0 } from '@stoplight/spectral-formats';
-import { pattern, or, schema, casing, truthy } from '@stoplight/spectral-functions';
+import { pattern, or, schema, truthy } from '@stoplight/spectral-functions';
 
-export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
+export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules/2.0';
 
-const adrCore: RulesetDefinition = {
+const adr20: RulesetDefinition = {
   description: 'NLGov REST API Design Rules',
   formats: [oas3_0],
   rules: {
@@ -69,45 +69,6 @@ const adrCore: RulesetDefinition = {
       message: "/core/no-trailing-slash: Leave off trailing slashes from URIs",
       documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/no-trailing-slash"
     },
-    // /core/doc-openapi-contact"
-    "info-contact": {
-      severity: "error",
-      given: [
-        "$.info"
-      ],
-      then: {
-        function: schema,
-        functionOptions: {
-          schema: {
-            required: [
-              "contact"
-            ]
-          }
-        }
-      },
-      message: "Missing `info.contact` field.",
-      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/doc-openapi-contact"
-    },
-    "info-contact-fields-exist": {
-      severity: "error",
-      given: [
-        "$.info.contact"
-      ],
-      then: {
-        function: schema,
-        functionOptions: {
-          schema: {
-            required: [
-              "email",
-              "name",
-              "url"
-            ]
-          }
-        }
-      },
-      message: "Missing fields in `info.contact` field. Must specify email, name and url.",
-      documentationUrl: "https://developer.overheid.nl/kennisbank/apis/api-design-rules/hoe-te-voldoen/doc-openapi-contact"
-    },
     // /core/http-methods
     "http-methods": {
       severity: "error",
@@ -153,85 +114,7 @@ const adrCore: RulesetDefinition = {
       },
       message: "Missing `info.version` field.",
     },
-    "paths-kebab-case": {
-      severity: "warn",
-      message: "{{property}} is not kebab-case.",
-      given: "$.paths[?(@property && !@property.match(/\\/openapi\\.json/))]~",
-      then: {
-        function: pattern,
-        functionOptions: {
-          match: "^(\\/|(\\/_[a-z]+|\\/(([a-z\\-]+|{[a-z]+})(\\/([a-z\\-\\.]+|{[a-z]+}))*)(\\/_[a-z]+)?)\\/?)$"
-        }
-      }
-    },
-    "schema-camel-case": {
-      severity: "warn",
-      message: "Schema name should be CamelCase in {{path}}",
-      given: "$.components.schemas[*]~",
-      then: {
-        function: casing,
-        functionOptions: {
-          type: "pascal",
-          separator: {
-            char: ""
-          }
-        }
-      }
-    },
-    "servers-use-https": {
-      severity: "warn",
-      message: "Server URL {{value}} {{error}}.",
-      given: [
-        "$.servers[*]",
-      ],
-      then: {
-        field: "url",
-        function: pattern,
-        functionOptions: {
-          match: "^https://.*"
-        }
-      }
-    },
-    "use-problem-schema": {
-      severity: "warn",
-      message: "The content type of an error response should be application/problem+json or application/problem+xml to match RFC 9457.",
-      given: "$..[responses][?(@property && @property.match(/(4|5)\\d\\d/))].content",
-      then: {
-        function: schema,
-        functionOptions: {
-          schema: {
-            anyOf: [
-              {
-                required: [
-                  "application/problem+json"
-                ]
-              },
-              {
-                required: [
-                  "application/problem+xml"
-                ]
-              }
-            ]
-          }
-        }
-      }
-    },
-    "property-casing": {
-      severity: "error",
-      message: "Properties should be lowerCamelCase in {{path}}",
-      given: "$..properties",
-      then: {
-        function: casing,
-        functionOptions: {
-          type: "camel",
-        },
-        field: "@key"
-      }
-    },
   },
 };
 
-export default adrCore;
-
-
-
+export default adr20;

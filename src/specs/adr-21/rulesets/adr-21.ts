@@ -2,9 +2,9 @@ import type { RulesetDefinition } from '@stoplight/spectral-core';
 import { oas3_0 } from '@stoplight/spectral-formats';
 import { pattern, or, schema, casing, truthy } from '@stoplight/spectral-functions';
 
-export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules';
+export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules/2.1';
 
-const adrCore: RulesetDefinition = {
+const adr21: RulesetDefinition = {
   description: 'NLGov REST API Design Rules',
   formats: [oas3_0],
   rules: {
@@ -217,7 +217,7 @@ const adrCore: RulesetDefinition = {
       }
     },
     "property-casing": {
-      severity: "error",
+      severity: "warn",
       message: "Properties should be lowerCamelCase in {{path}}",
       given: "$..properties",
       then: {
@@ -231,7 +231,4 @@ const adrCore: RulesetDefinition = {
   },
 };
 
-export default adrCore;
-
-
-
+export default adr21;
