@@ -126,7 +126,7 @@ const CodeEditor: FC<Props> = ({ spec, uri }) => {
                               </button>
                               {diagnostic.documentationUrl && (
                                 <a className="btn" href={diagnostic.documentationUrl} target="_blank" rel="noopener noreferrer">
-                                  Documentation
+                                  How to fix
                                   <SquareArrowOutUpRight size={12} strokeWidth={2} className="ml-1.5" />
                                 </a>
                               )}
