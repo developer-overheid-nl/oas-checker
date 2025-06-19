@@ -4,6 +4,7 @@ import mergeAllOf from 'json-schema-merge-allof';
 import nimma from 'nimma';
 import { last } from 'ramda';
 import { OpenAPIV3_0 } from './openapi-types';
+import yaml from 'js-yaml';
 
 export const groupBy = <T>(arr: T[], key: (i: T) => string) =>
   arr.reduce((groups, item) => {
@@ -105,7 +106,12 @@ export const formatDocument = (content: string): string => {
     const doc = JSON.parse(content);
     return JSON.stringify(doc, undefined, 2);
   } catch {
-    throw new Error('JSON document could not be parsed.');
+    try {
+      const doc = yaml.load(content);
+      return JSON.stringify(doc, undefined, 2);
+    } catch {
+      throw new Error('JSON document could not be parsed.');
+    }
   }
 };
 

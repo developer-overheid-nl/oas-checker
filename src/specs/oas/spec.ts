@@ -59,7 +59,7 @@ const responseMapper: SpecResponseMapper = async responseText => {
 const linterName = (confClass: string) => confClass.replace('http://www.opengis.net/spec/', '');
 
 const spec: Spec = {
-  name: 'ADR 2.2_alpha',
+  name: 'ADR Werkversie',
   slug: 'adr',
   example: JSON.stringify(example, undefined, 2),
   linters: Object.entries(rulesets).map(entry => ({
