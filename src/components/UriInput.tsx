@@ -1,4 +1,4 @@
-import { FC, FormEventHandler, useState } from 'react';
+import { FC, FormEventHandler, useState, useEffect } from 'react';
 
 interface Props {
   onSubmit: (uri: string) => void;
@@ -6,6 +6,18 @@ interface Props {
 
 const UriInput: FC<Props> = ({ onSubmit }) => {
   const [uri, setUri] = useState('');
+
+  useEffect(() => {
+    // Check for URL query parameter on component mount
+    const params = new URLSearchParams(window.location.search);
+    const urlParam = params.get('url');
+    
+    if (urlParam) {
+      setUri(urlParam);
+      // Automatically trigger load
+      onSubmit(urlParam);
+    }
+  }, [onSubmit]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
