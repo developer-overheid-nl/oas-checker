@@ -1,4 +1,4 @@
-import { Rulesets } from '../../../spectral';
+import { Rulesets } from '@geonovum/standards-checker';
 import adrCore, { ADR_URI } from './adr-20';
 
 const rulesets: Rulesets = {

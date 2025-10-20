@@ -1,9 +1,8 @@
-import { APPLICATION_JSON_TYPE, APPLICATION_OPENAPI_JSON_3_0_TYPE } from '../../constants';
-import { spectralLinter } from '../../spectral';
-import { Spec, SpecLinter, SpecResponseMapper } from '../../types';
-import { handleResponse, handleResponseJson } from '../../util';
+
+import { SpecResponseMapper, APPLICATION_OPENAPI_JSON_3_0_TYPE, handleResponse, SpecLinter, APPLICATION_JSON_TYPE, handleResponseJson, spectralLinter, Spec } from '@geonovum/standards-checker';
 import example from './example.json';
 import rulesets from './rulesets';
+import { RulesetDefinition } from '@stoplight/spectral-core';
 
 const responseMapper: SpecResponseMapper = async responseText => {
   let document;
@@ -64,7 +63,7 @@ const spec: Spec = {
   example: JSON.stringify(example, undefined, 2),
   linters: Object.entries(rulesets).map(entry => ({
     name: linterName(entry[0]),
-    linter: spectralLinter(linterName(entry[0]), entry[1]),
+    linter: spectralLinter(linterName(entry[0]), entry[1] as RulesetDefinition),
   })),
   responseMapper,
 };
