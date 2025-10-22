@@ -1,42 +1,31 @@
 {
-  "name": "@geonovum/ogc-checker",
+  "name": "oas-checker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --open",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && npm run build:rulesets && vite build",
+    "build:rulesets": "tsdown src/index.ts --format esm --platform node --sourcemap --out-dir dist --clean --tsconfig tsconfig.rulesets.json --dts",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest"
   },
   "dependencies": {
     "@geonovum/standards-checker": "github:Geonovum/standards-checker",
-    "@stoplight/better-ajv-errors": "^1.0.3",
-    "@stoplight/json-ref-readers": "^1.2.2",
-    "@stoplight/path": "^2.0.1",
     "@stoplight/spectral-core": "^1.20.0",
-    "@stoplight/spectral-formats": "^1.8.2",
     "@stoplight/spectral-functions": "^1.10.1",
-    "@stoplight/spectral-parsers": "^1.0.5",
-    "@stoplight/spectral-ref-resolver": "^1.0.5",
     "@stoplight/spectral-rulesets": "^1.22.0",
-    "@stoplight/types": "^14.1.1",
-    "ajv": "^8.17.1",
-    "ajv-formats": "^3.0.1",
-    "json-schema-merge-allof": "^0.8.1",
     "luxon": "^3.7.2",
-    "nimma": "^0.7.2",
     "ramda": "^0.32.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.9.4",
     "react-router-dom": "^7.9.4",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/postcss": "^4.1.15",
     "@types/json-schema-merge-allof": "^0.6.5",
     "@types/luxon": "^3.7.1",
     "@types/ramda": "^0.31.1",
@@ -48,10 +37,12 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.4.0",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.14",
+    "ramda": "^0.32.0",
+    "tailwindcss": "^4.1.15",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.1",
+    "typescript-eslint": "^8.46.2",
     "vite": "^7.1.11",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "tsdown": "^0.15.9"
   }
 }
