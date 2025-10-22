@@ -1,6 +1,6 @@
 # oas-checker
 
-Geonovum-specifieke implementatie van de OGC Checker met JSON-FG en OGC API specificaties.
+Geonovum-specifieke implementatie van de OGC Checker met adr 2.0, 2.1 en oas specificaties.
 
 ## Build
 

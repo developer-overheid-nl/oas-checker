@@ -19,21 +19,39 @@ interface PluginConfig {
 
 const specsBySlug = new Map(specs.map(spec => [spec.slug, spec]));
 
+interface RulesetTarget {
+  slug: string;
+  filter?: (uri: string, definition: RulesetDefinition) => boolean;
+}
+
 interface RulesetSource {
   slug: string;
   rulesets: Record<string, RulesetDefinition>;
+  targets?: RulesetTarget[];
 }
 
 const collectRulesetGroups = (...sources: RulesetSource[]) => {
   const groups = new Map<string, Record<string, RulesetDefinition>>();
 
-  sources.forEach(({ slug, rulesets }) => {
-    if (!specsBySlug.has(slug)) {
-      return;
-    }
+  sources.forEach(({ slug, rulesets, targets }) => {
+    const resolvedTargets = targets ?? [{ slug }];
 
-    const existing = groups.get(slug) ?? {};
-    groups.set(slug, { ...existing, ...rulesets });
+    resolvedTargets.forEach(({ slug: targetSlug, filter }) => {
+      if (!specsBySlug.has(targetSlug)) {
+        return;
+      }
+
+      const subset = filter
+        ? Object.fromEntries(Object.entries(rulesets).filter(([uri, definition]) => filter(uri, definition)))
+        : rulesets;
+
+      if (!Object.keys(subset).length) {
+        return;
+      }
+
+      const existing = groups.get(targetSlug) ?? {};
+      groups.set(targetSlug, { ...existing, ...subset });
+    });
   });
 
   return groups;

@@ -1,5 +1,5 @@
 import type { RulesetDefinition } from '@stoplight/spectral-core';
-import { oas3_0 } from '@stoplight/spectral-formats';
+import { oas3_0 } from '../../formats';
 import { pattern, or, schema, casing, truthy } from '@stoplight/spectral-functions';
 
 export const ADR_URI = 'https://logius-standaarden.github.io/API-Design-Rules/2.1';

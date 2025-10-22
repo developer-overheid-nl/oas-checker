@@ -5,7 +5,13 @@ import { createRouter } from '@geonovum/standards-checker';
 import specs from './specs';
 import '@geonovum/standards-checker/ui/index.css';
 
-const router = createRouter(specs);
+const router = createRouter(specs, {
+  strings: {
+    noViolations: 'Geen fouten gevonden.',
+    showInEditor: 'Toon in editor',
+    documentation: 'Hoe op te lossen?',
+  },
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
