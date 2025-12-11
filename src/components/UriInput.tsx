@@ -21,6 +21,9 @@ const UriInput: FC<Props> = ({ onSubmit }) => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('url', uri);
+    history.pushState({}, '', newUrl.href);
     onSubmit(uri);
   };
 
