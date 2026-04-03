@@ -1,0 +1,49 @@
+publiccodeYmlVersion: "0.5"
+
+name: OAS Checker
+url: https://github.com/developer-overheid-nl/oas-checker
+landingURL: https://developer-overheid-nl.github.io/oas-checker/
+softwareType: standalone/web
+platforms:
+  - web
+developmentStatus: stable
+
+description:
+  nl:
+    shortDescription: >-
+      Webapplicatie voor het valideren en linting van OpenAPI Specification
+      (OAS) documenten tegen de Nederlandse API Design Rules.
+    longDescription: |
+      OAS Checker is een webapplicatie waarmee ontwikkelaars hun OpenAPI
+      Specification (OAS) documenten kunnen valideren en linting kunnen
+      uitvoeren tegen de Nederlandse API Design Rules.
+
+      De tool maakt gebruik van Spectral-rulesets om OAS-documenten te
+      analyseren en rapporteert overtredingen van de API Design Rules.
+      Zo kunnen ontwikkelaars snel controleren of hun API-specificaties
+      voldoen aan de geldende standaarden voor Nederlandse
+      overheidsapplicaties.
+    features:
+      - Validatie van OAS-documenten tegen de NL API Design Rules
+      - Linting van OpenAPI Specification bestanden
+      - Ondersteuning voor meerdere Spectral-rulesets
+
+legal:
+  license: MIT
+  mainCopyrightOwner: Geonovum
+
+intendedAudience:
+  countries:
+    - NL
+  scope:
+    - government
+
+localisation:
+  availableLanguages:
+    - nl
+  localisationReady: false
+
+maintenance:
+  type: internal
+  contacts:
+    - name: developer.overheid.nl
