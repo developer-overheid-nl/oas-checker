@@ -1,4 +1,4 @@
-publiccodeYmlVersion: "0.5"
+publiccodeYmlVersion: "0.7"
 
 name: OAS Checker
 url: https://github.com/developer-overheid-nl/oas-checker
@@ -6,7 +6,7 @@ landingURL: https://developer-overheid-nl.github.io/oas-checker/
 softwareType: standalone/web
 platforms:
   - web
-developmentStatus: stable
+developmentStatus: obsolete
 
 description:
   nl:
